@@ -1,0 +1,103 @@
+type Query {
+  chatbox(name1: String!,name2: String!): ChatBox!
+}
+type Message {
+  sender: String
+  body: String
+}
+type ChatBox {
+  name: String!
+  messages: [Message]
+}
+
+
+
+type Mutation {
+  createChatBox(name1: String!, name2: String!): ChatBox!
+  createMessage(name: String!, to:String!, body:String!): Message!
+  clearMessage(name:String!, to:String!):Message
+}
+
+type Subscription {
+  message(name1: String!, name2: String!): ChatBox!
+}
+
+type MessageSubscriptionPayload {
+  message:Message
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  age: Int
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  age: Int
+}
+
+input CreatePostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+  author: ID!
+}
+
+input UpdatePostInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input CreateCommentInput {
+  text: String!
+  author: ID!
+  post: ID!
+}
+
+input UpdateCommentInput {
+  text: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+  posts: [Post!]!
+  comments: [Comment!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  post: Post!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  data: Post!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  data: Comment!
+}
